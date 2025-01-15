@@ -18,13 +18,10 @@ st.write(
 
 # session = get_active_session()
 cnx = st.connection("snowflake")
-session = cnx.session
-
-# troubleshooting
-st.write(st.session_state.key)
+# session = cnx.session
 
 # my_dataframe = session.table("smoothies.public.fruit_options").select(col("FRUIT_NAME"))
-my_dataframe = session.query("SELECT FRUIT_NAME FROM FRUIT_OPTIONS")
+my_dataframe = cnx.query("SELECT FRUIT_NAME FROM FRUIT_OPTIONS")
 
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients',
