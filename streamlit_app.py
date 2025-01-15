@@ -20,6 +20,9 @@ st.write(
 cnx = st.connection("snowflake")
 session = cnx.session
 
+name_on_order = st.text_input("Name on Smoothie:")
+st.write(f'The name on your smoothie will be {name_on_order}')
+
 # my_dataframe = session.table("smoothies.public.fruit_options").select(col("FRUIT_NAME"))
 my_dataframe = cnx.query("SELECT FRUIT_NAME FROM FRUIT_OPTIONS")
 
@@ -28,9 +31,6 @@ ingredients_list = st.multiselect(
     my_dataframe,
     max_selections = 5,
 )
-
-name_on_order = st.text_input("Name on Smoothie:")
-st.write(f'The name on your smoothie will be {name_on_order}')
 
 if ingredients_list:
     st.text(ingredients_list)
