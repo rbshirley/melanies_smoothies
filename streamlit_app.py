@@ -13,18 +13,15 @@ st.write(
     """
 )
 
-# option = st.selectbox("What is your favorite fruit?",("Banana","Strawberries","Peaches"))
-# st.write("Your favorite fruit is:", option)
-
-# session = get_active_session()
-cnx = st.connection("snowflake")
-session = cnx.session
-
 name_on_order = st.text_input("Name on Smoothie:")
 st.write(f'The name on your smoothie will be {name_on_order}')
 
-# my_dataframe = session.table("smoothies.public.fruit_options").select(col("FRUIT_NAME"))
-my_dataframe = cnx.query("SELECT FRUIT_NAME FROM FRUIT_OPTIONS")
+# session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx.session() # session = cnx.session
+
+my_dataframe = session.table("smoothies.public.fruit_options").select(col("FRUIT_NAME"))
+# my_dataframe = cnx.query("SELECT FRUIT_NAME FROM FRUIT_OPTIONS")
 
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients',
@@ -45,6 +42,6 @@ if ingredients_list:
 
     time_to_insert = st.button("Submit Order")
     if time_to_insert:
-        # session.sql(my_insert_stmt).collect()
-        cnx.query(my_insert_stmt)
+        session.sql(my_insert_stmt).collect()
+        # cnx.query(my_insert_stmt)
         st.success(f'Your Smoothie is ordered, {name_on_order}!', icon="✅")
